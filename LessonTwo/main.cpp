@@ -23,6 +23,7 @@ public:
 class Student : public Person{
 private:
     int m_yearOfStudy;
+    inline static int m_counter = 0;
 
 public:
     Student(std::string name = "Noname", int age = 0, gender a = UNKNOWN, int weight = 0, int yearOfStudy = 0)
@@ -32,7 +33,13 @@ public:
 
     void increaseYearOfStudy(){ m_yearOfStudy++; }
 
+    void increaseCounter(){ m_counter++; }
+
+    static int getCounter(){ return  m_counter; }
+
     friend void getStudent(const Student &s);
+
+    ~Student(){ m_counter--; }
 };
 
 void getStudent(const Student &s){
@@ -41,30 +48,29 @@ void getStudent(const Student &s){
 }
 
 void TaskOne(){
-    int counter = 0;
     Student list[10];
 
     Student first;
     list[0] = first;
-    counter++;
+    first.increaseCounter();
 
     Student second;
     list[1] = second;
-    counter++;
+    second.increaseCounter();
 
     Student third("Ivan", 20, MALE, 89, 1);
     list[2] = third;
-    counter++;
+    third.increaseCounter();
 
     Student fourth;
     list[3] = fourth;
-    counter++;
+    fourth.increaseCounter();
 
     Student fifth;
     list[4] = fifth;
-    counter++;
+    fifth.increaseCounter();
 
-    std::cout << "Count of students: " << counter << std::endl;
+    std::cout << "Count of students: " << Student::getCounter() << std::endl;
     getStudent(second);
 
     second.setName("Petr");
@@ -76,7 +82,7 @@ void TaskOne(){
     getStudent(second);
     getStudent(third);
 
-    std::cout << "Введите номер студента, которого вы хотите отобразить (всего студентов: " << counter << " )" << std::endl;
+    std::cout << "Введите номер студента, которого вы хотите отобразить (всего студентов: " << Student::getCounter() << " )" << std::endl;
     int request;
     std::cin >> request;
     getStudent(list[request - 1]);
